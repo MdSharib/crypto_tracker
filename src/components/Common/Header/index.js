@@ -1,6 +1,7 @@
 import React from 'react'
 import "./styles.css"
 import TemporaryDrawer from './drawer';
+import Button from '../Button';
 
 const Header = () => {
   return (
@@ -10,7 +11,7 @@ const Header = () => {
         <a href='/'><p className='link'>Home</p></a>
         <a href='/'><p className='link'>Compare</p></a>
         <a href='/'><p className='link'>Watchlist</p></a>
-        <a href='/'><p className='link'>Dashboard</p></a>
+        <a href='/'><Button text={"Dashboard"} onClick= {() => console.log("btn Clicked")}/></a>
       </div>
       <div className='mobile-drawer'>
         <TemporaryDrawer />
