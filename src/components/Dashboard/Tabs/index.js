@@ -5,6 +5,9 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import { ThemeProvider, createTheme } from '@mui/material';
+import Grid from '../Grid';
+import "./styles.css"
+import List from '../List';
 
 const TabsComponent = ({coins}) => {
   const [value, setValue] = useState('grid');
@@ -40,10 +43,13 @@ const TabsComponent = ({coins}) => {
  
           </TabList>
 
-        <TabPanel value="grid"><div>{coins.map((val, i) => {
-          return <div>{i+1} - {val.name}</div>
+        <TabPanel value="grid">
+          <div className='grid-flex'>{coins.map((coin, i) => {
+          return <Grid coin={coin} key={i}/>
         })}</div></TabPanel>
-        <TabPanel value="list"><div>mapping for list</div></TabPanel>
+        <TabPanel value="list"><table className='list-table'>{coins.map((coin, i) => {
+          return <List coin={coin} key={i}/>
+        })}</table></TabPanel>
       </TabContext>
     </ThemeProvider>
   );
