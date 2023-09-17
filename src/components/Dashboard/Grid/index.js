@@ -9,56 +9,53 @@ import { Link } from "react-router-dom";
 const Grid = ({ coin }) => {
   const [coinList, setCoinList] = useState([]);
 
-
-  useEffect(()=> {
+  useEffect(() => {
     const coinListString = localStorage.getItem("coinList");
-    if(coinListString){
+    if (coinListString) {
       setCoinList(JSON.parse(coinListString));
-
     }
-  }, [])
+  }, []);
 
   const handleLikeItem = (coinId) => {
     console.log("coinId from like", coinId);
 
-
     const coinListString = localStorage.getItem("coinList");
-    console.log("ls coin list", coinListString)
-    if(coinListString){
+    console.log("ls coin list", coinListString);
+    if (coinListString) {
       const newData = JSON.parse(coinListString);
       newData.push(coinId);
       localStorage.setItem("coinList", JSON.stringify(newData));
       setCoinList(newData);
-
-    }else {
+    } else {
       const arr = [];
       arr.push(coinId);
       localStorage.setItem("coinList", JSON.stringify(arr));
       setCoinList(arr);
     }
   };
-  
-  const handleRemoveItem = (coinId) => {
 
+  const handleRemoveItem = (coinId) => {
     console.log("coinId from unlike", coinId);
 
-
     const coinListString = localStorage.getItem("coinList");
-    console.log("ls coin list", coinListString)
-    if(coinListString){
+    console.log("ls coin list", coinListString);
+    if (coinListString) {
       const newData = JSON.parse(coinListString);
-      const filteredData =  newData.filter((coin) => coin !== coinId);
+      const filteredData = newData.filter((coin) => coin !== coinId);
       localStorage.setItem("coinList", JSON.stringify(filteredData));
       setCoinList(filteredData);
-
     }
   };
 
-  // Function to retrieve the coin list from local storage
-  function getCoinListFromLocalStorage() {
-    const coinListString = localStorage.getItem("coinList");
-    return coinListString ? JSON.parse(coinListString) : [];
-  }
+  const handleClick = (e) => {
+    e.preventDefault();
+    if (!coinList.includes(coin.id)) {
+      handleLikeItem(coin.id);
+    } else {
+      handleRemoveItem(coin.id);
+    }
+  };
+
   return (
     <Link to={`/coin/${coin.id}`}>
       <div
@@ -72,17 +69,12 @@ const Grid = ({ coin }) => {
             <p className="coin-symbol">{coin.symbol}</p>
             <p className="coin-name">{coin.name}</p>
           </div>
-          <div
-           onClick={(e) => {
-            e.preventDefault();
-            if (!coinList.includes(coin.id)) {
-              handleLikeItem(coin.id);
-            } else {
-              handleRemoveItem(coin.id);
-            }
-          }}
-          >
-           {!coinList.includes(coin.id) ? <StarBorderRoundedIcon /> : <StarRateRoundedIcon />}
+          <div onClick={handleClick}>
+            {!coinList.includes(coin.id) ? (
+              <StarBorderRoundedIcon />
+            ) : (
+              <StarRateRoundedIcon />
+            )}
           </div>
         </div>
         {coin.price_change_percentage_24h > 0 ? (
