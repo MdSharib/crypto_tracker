@@ -16,7 +16,7 @@ export default function PaginationComponent({page, handlePageChange}) {
       "& .MuiPaginationItem-ellipsis " : {
         border: "0px solid var(--grey) !important",
       },
-      "& .MuiPaginationITem-text" : {
+      "& .MuiPaginationItem-text" : {
         color: "var(--white)",
         border: "1px solid var(--grey)",
       },

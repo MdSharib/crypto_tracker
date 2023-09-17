@@ -1,15 +1,69 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./styles.css";
 import TrendingUpRoundedIcon from "@mui/icons-material/TrendingUpRounded";
 import TrendingDownRoundedIcon from "@mui/icons-material/TrendingDownRounded";
+import StarBorderRoundedIcon from '@mui/icons-material/StarBorderRounded';
+import StarRateRoundedIcon from "@mui/icons-material/StarRateRounded";
 import { Tooltip } from "@mui/material";
 import "./styles.css"
 import { convertNumbers } from './../../../functions/convertNumbers';
 import { Link } from "react-router-dom";
 
 const List = ({coin}) => {
+  const [coinList, setCoinList] = useState([]);
+
+
+  useEffect(()=> {
+    const coinListString = localStorage.getItem("coinList");
+    if(coinListString){
+      setCoinList(JSON.parse(coinListString));
+
+    }
+  }, [])
+
+  const handleLikeItem = (coinId) => {
+    console.log("coinId from like", coinId);
+
+
+    const coinListString = localStorage.getItem("coinList");
+    console.log("ls coin list", coinListString)
+    if(coinListString){
+      const newData = JSON.parse(coinListString);
+      newData.push(coinId);
+      localStorage.setItem("coinList", JSON.stringify(newData));
+      setCoinList(newData);
+
+    }else {
+      const arr = [];
+      arr.push(coinId);
+      localStorage.setItem("coinList", JSON.stringify(arr));
+      setCoinList(arr);
+    }
+  };
+  const handleRemoveItem = (coinId) => {
+
+    console.log("coinId from unlike", coinId);
+
+
+    const coinListString = localStorage.getItem("coinList");
+    console.log("ls coin list", coinListString)
+    if(coinListString){
+      const newData = JSON.parse(coinListString);
+      const filteredData =  newData.filter((coin) => coin !== coinId);
+      localStorage.setItem("coinList", JSON.stringify(filteredData));
+      setCoinList(filteredData);
+
+    }
+  };
+
+   // Function to retrieve the coin list from local storage
+   function getCoinListFromLocalStorage() {
+    const coinListString = localStorage.getItem('coinList');
+    return coinListString ? JSON.parse(coinListString) : [];
+  }
   return (
     <Link to={`/coin/${coin.id}`}>
+      {console.log("cin in list", coin)}
     <tr className="list-row">
         <Tooltip title="Coin image">
       <td className="td-image">
@@ -25,6 +79,13 @@ const List = ({coin}) => {
         
       </td>
       </Tooltip>
+      <div
+            onClick={(e) => {
+              e.preventDefault(), !coinList.includes(coin.id) ? handleLikeItem(coin.id): handleRemoveItem(coin.id);
+            }}
+          >
+           {!coinList.includes(coin.id) ? <StarBorderRoundedIcon /> : <StarRateRoundedIcon />}
+          </div>
       <Tooltip title="Price change">
       {coin.price_change_percentage_24h > 0 ? (
         <td className="chip-flex">

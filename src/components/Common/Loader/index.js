@@ -1,11 +1,12 @@
 
 import CircularProgress from '@mui/material/CircularProgress';
-import React from 'react'
+import React from 'react';
+import "./styles.css"
 
 const Loader = () => {
   return (
     <div className='loader-container'> 
-    {/* <CircularProgress color={{color: "var(--blue)"}}/> */}
+    <CircularProgress />
     </div>
   )
 }
