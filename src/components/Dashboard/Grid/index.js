@@ -73,9 +73,14 @@ const Grid = ({ coin }) => {
             <p className="coin-name">{coin.name}</p>
           </div>
           <div
-            onClick={(e) => {
-              e.preventDefault(), !coinList.includes(coin.id) ? handleLikeItem(coin.id): handleRemoveItem(coin.id);
-            }}
+           onClick={(e) => {
+            e.preventDefault();
+            if (!coinList.includes(coin.id)) {
+              handleLikeItem(coin.id);
+            } else {
+              handleRemoveItem(coin.id);
+            }
+          }}
           >
            {!coinList.includes(coin.id) ? <StarBorderRoundedIcon /> : <StarRateRoundedIcon />}
           </div>
